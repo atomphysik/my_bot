@@ -28,15 +28,26 @@ def generate_launch_description():
     # Include the Gazebo launch file, provided by the gazebo_ros package
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
-             )
-
+                    get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')])
+             ,launch_arguments={'world' : os.path.join(
+                get_package_share_directory(package_name), 'worlds', 'my_world.world')}.items())
+    # gazebo = IncludeLaunchDescription(
+    #             PythonLaunchDescriptionSource([os.path.join(
+    #                 get_package_share_directory(package_name), 'launch', 'gazebo_cafe.py')]
+    #                 ), launch_arguments={'use_sim_time':'true'}.items()
+    # )
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
-                                   '-entity', 'my_bot'],
+                                   '-entity', 'my_bot', '-z', '10'],
                         output='screen')
 
+    slam = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('slam_toolbox'), 
+                                                        'launch', 'online_async_launch.py')
+                                           ]), launch_arguments=['params_file', 
+        os.path.join(get_package_share_directory(package_name), 'config', 'mapper_params_online_async.yaml')]
+    )
 
 
     # Launch them all!
@@ -44,4 +55,5 @@ def generate_launch_description():
         rsp,
         gazebo,
         spawn_entity,
+        slam
     ])
