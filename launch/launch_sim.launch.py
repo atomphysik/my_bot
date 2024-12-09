@@ -42,19 +42,19 @@ def generate_launch_description():
                                    '-entity', 'my_bot', '-z', '10'],
                         output='screen')
 
-    slam = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('slam_toolbox'), 
-                                                        'launch', 'online_async_launch.py')
-                                           ]), launch_arguments={'params_file': 
-        os.path.join(get_package_share_directory(package_name), 'config', 'mapper_params_online_async.yaml')
-        }.items()
-    )
+    # slam = IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('slam_toolbox'), 
+    #                                                     'launch', 'online_async_launch.py')
+    #                                        ]), launch_arguments={'params_file': 
+    #     os.path.join(get_package_share_directory(package_name), 'config', 'mapper_params_online_async.yaml')
+    #     }.items()
+    # )
 
 
     # Launch them all!
     return LaunchDescription([
         rsp,
         gazebo,
-        spawn_entity,
-        slam
+        spawn_entity
+        # slam
     ])
