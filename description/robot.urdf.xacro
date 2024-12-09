@@ -4,4 +4,5 @@
     <xacro:include filename="robot_core.xacro"/>
     <xacro:include filename="wheel_control.xacro"/>
     <xacro:include filename="laser.xacro"/>
+    <xacro:include filename="camera.xacro"/>
 </robot>
